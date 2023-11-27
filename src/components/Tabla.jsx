@@ -38,7 +38,6 @@ const Tabla = () => {
         }
         const data = await response.json();
         setDatos(data);
-        console.log("Datos obtenidos:", data);
         // Trabaja con los datos obtenidos aquí
       } catch (error) {
         console.error("Error fetching data:", error);
