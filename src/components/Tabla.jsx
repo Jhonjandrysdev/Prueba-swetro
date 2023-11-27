@@ -1,6 +1,7 @@
 import TituloTabla from './TituloTabla';
 import Prueba from './Prueba';
 import {useState, useEffect} from 'react';
+import { ToggleSwitch } from 'flowbite-react';
 
 const Tabla = () => {
 
@@ -103,11 +104,33 @@ const getEstiloFila = (actividad) => {
   return esSospechosa ? { backgroundColor: "red" } : {};
 };
 
+const [filtroActivo, setFiltroActivo] = useState(false);
+
+  const toggleFiltro = () => {
+    setFiltroActivo(!filtroActivo);
+  };
+
+  const actividadesFiltradas = datos.filter((actividad) => {
+    if (filtroActivo) {
+      return (
+        actividad.AverageHeartRateInBeatsPerMinute < 90 ||
+        actividad.DurationInSeconds > 2 * 2775.86 ||
+        actividad.DistanceInMeters > 2 * 6494.885
+      );
+    } else {
+      return true;
+    }
+  });
+
   return (
     <>
     <div className="w-full">
     <div className="container mx-auto my-5">
       <Prueba />
+      <label>
+            <ToggleSwitch checked={filtroActivo} onChange={toggleFiltro} />
+            Filtro ritmo cardiaco sospechoso
+          </label>
       <table className="table-auto text-center items-center p-3 border">
         <thead>
           <tr className="border border-gray-800">
@@ -150,7 +173,7 @@ const getEstiloFila = (actividad) => {
           </tr>
         </thead>
         <tbody>
-          {datos.map((item) => (
+          {actividadesFiltradas.map((item) => (
             <tr key={item.Id} className="border-b border-gray-800">
               <td className="border-r  border-gray-800">{item.Id}</td>
               <td className="border-r  border-gray-800">
@@ -168,7 +191,8 @@ const getEstiloFila = (actividad) => {
               >
                 {item.DistanceInMeters}
               </td>
-              <td className="border-r  border-gray-800">
+              <td className="border-r  border-gray-800"
+              style={getEstiloFila(item)}>
                 {item.Steps}
               </td>
               <td className="border-r  border-gray-800">
