@@ -1,10 +1,12 @@
 import { useEffect, useState } from "react";
 import Prueba from "./components/Prueba";
 import TituloTabla from "./components/TituloTabla";
+import Load from './components/Load';
 const App = () => {
 
   const [datos, setDatos] = useState([]);
-  const [sospechoso, setSospechoso] = useState([])
+  const [loader, setLoader] = useState(false);
+  
 
   const averageHeartRateHigh = 201;
   const averageHeartRate = 149.2;
@@ -21,85 +23,29 @@ const App = () => {
   const averageDistanceInMetersLow = 0;
   //Medidas de distancia en metros
 
+  const endpoint = 'https://www.towired.com/acamilae/endpoint.php';
 
-useEffect(() => {
-  const data = [
-    {
-      Id: 1,
-      UserId: 10,
-      StartTimeInSeconds: 1665239344,
-      DurationInSeconds: 1500,
-      DistanceInMeters: 234234234324234,
-      Steps: 4224,
-      AverageSpeedInMetersPerSecond: 2.962,
-      AveragePaceInMinutesPerKilometer: 5.626829,
-      TotalElevationGainInMeters: 16.02,
-      AverageHeartRateInBeatsPerMinute: 165,
-    },
-    {
-      Id: 2,
-      UserId: 10,
-      StartTimeInSeconds: 1665325877,
-      DurationInSeconds: 1800,
-      DistanceInMeters: 5262.85,
-      Steps: 4864,
-      AverageSpeedInMetersPerSecond: 2.924,
-      AveragePaceInMinutesPerKilometer: 5.6999545,
-      TotalElevationGainInMeters: 80.48,
-      AverageHeartRateInBeatsPerMinute: 0,
-    },
-    {
-      Id: 6,
-      UserId: 10,
-      StartTimeInSeconds: 1667740865,
-      DurationInSeconds: 0,
-      DistanceInMeters: 123.3,
-      Steps: 5084,
-      AverageSpeedInMetersPerSecond: 2.951,
-      AveragePaceInMinutesPerKilometer: 5.6478033,
-      TotalElevationGainInMeters: 7.24,
-      AverageHeartRateInBeatsPerMinute: 167,
-    },
-    {
-      Id: 7,
-      UserId: 10,
-      StartTimeInSeconds: 1667831813,
-      DurationInSeconds: 540,
-      DistanceInMeters: 303.52,
-      Steps: 1108,
-      AverageSpeedInMetersPerSecond: 0.562,
-      AveragePaceInMinutesPerKilometer: 29.65599,
-      TotalElevationGainInMeters: 0,
-      AverageHeartRateInBeatsPerMinute: 112,
-    },
-    {
-      Id: 10,
-      UserId: 10,
-      StartTimeInSeconds: 1668348621,
-      DurationInSeconds: 1727,
-      DistanceInMeters: 5004.66,
-      Steps: 4730,
-      AverageSpeedInMetersPerSecond: 2.898,
-      AveragePaceInMinutesPerKilometer: 5.7510924,
-      TotalElevationGainInMeters: 205.09,
-      AverageHeartRateInBeatsPerMinute: 158,
-    },
-    {
-      Id: 12,
-      UserId: 10,
-      StartTimeInSeconds: 1665927809,
-      DurationInSeconds: 1800,
-      DistanceInMeters: 5123.38,
-      Steps: 5026,
-      AverageSpeedInMetersPerSecond: 2.846,
-      AveragePaceInMinutesPerKilometer: 5.8561726,
-      TotalElevationGainInMeters: 24.62,
-      AverageHeartRateInBeatsPerMinute: 159,
-    },
-  ];
-
-  setDatos(data)
-}, [])
+ useEffect(() => {
+   const fetchData = async () => {
+           try {
+            setLoader(true)
+             const response = await fetch(endpoint);          
+             if (!response.ok) {
+               throw new Error('Network response was not ok');
+             }          
+             const data = await response.json();
+             setDatos(data)
+             console.log('Datos obtenidos:', data);
+             // Trabaja con los datos obtenidos aquí
+           } catch (error) {
+             console.error('Error fetching data:', error);
+           } finally{
+            setLoader(false)
+           }
+         };
+         
+   fetchData()
+ }, [])
 
 const getEstiloFila = (actividad) => {
   const {
@@ -140,16 +86,22 @@ const getEstiloFila = (actividad) => {
     DistanceInMeters > averageDistanceInMeters * 2;
 
   if (esSospechosa) {
-    (`Estas actividades presentan incongruencia:  Distancia: ${DistanceInMeters} - Ritmo cardiado : ${AverageHeartRateInBeatsPerMinute} - Duración: ${DurationInSeconds}`);
+    console.log(`Actividad sospechosa - ID: ${Id} Distancia: ${DistanceInMeters} - Ritmo cardiado : ${AverageHeartRateInBeatsPerMinute} - Duración: ${DurationInSeconds} - No es congruente estas medidas para la actividad `);
   }
-  console.log("Se esta ejecutando")
 
   return esSospechosa ? { backgroundColor: 'red' } : {};
 };
   
 
   return (
-    <div className="w-full">
+    <div>
+    {
+      loader ?  
+      ( <Load/> ) 
+      : 
+      (
+        <>
+        <div className="w-full">
       <div className="container mx-auto my-5">
         <Prueba />
         <table className="table-auto text-center items-center p-3 border-b">
@@ -195,22 +147,26 @@ const getEstiloFila = (actividad) => {
           </thead>
           <tbody>
             {datos.map((item) => (
-              <tr key={item.Id} className="border-b border-gray-800" style={getEstiloFila(item)} >
+              <tr key={item.Id} className="border-b border-gray-800">
                 <td className="border-r  border-gray-800">{item.Id}</td>
                 <td className="border-r  border-gray-800">{item.StartTimeInSeconds}</td>
-                <td className="border-r  border-gray-800">{item.DurationInSeconds}</td>
-                <td className="border-r  border-gray-800">{item.DistanceInMeters}</td>
+                <td className="border-r  border-gray-800" style={getEstiloFila(item)}>{item.DurationInSeconds}</td>
+                <td className="border-r  border-gray-800" style={getEstiloFila(item)}>{item.DistanceInMeters}</td>
                 <td className="border-r  border-gray-800">{item.Steps}</td>
                 <td className="border-r  border-gray-800">{item.AverageSpeedInMetersPerSecond}</td>
                 <td className="border-r  border-gray-800">{item.AveragePaceInMinutesPerKilometer}</td>
-                <td className="border-r  border-gray-800">{item.AverageHeartRateInBeatsPerMinute}</td>
-                <td className="border-r  border-gray-800">{}</td>
+                <td className="border-r  border-gray-800"style={getEstiloFila(item)}>{item.AverageHeartRateInBeatsPerMinute}</td>
+                <td className="border-r  border-gray-800"style={getEstiloFila(item)}></td>
 
               </tr>
             ))}
           </tbody>
         </table>
       </div>
+    </div>
+    </>
+      )
+    }
     </div>
   );
 };
