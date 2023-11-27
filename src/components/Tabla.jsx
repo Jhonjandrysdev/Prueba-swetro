@@ -2,10 +2,13 @@ import TituloTabla from "./TituloTabla";
 import Prueba from "./Prueba";
 import { useState, useEffect } from "react";
 import { ToggleSwitch } from "flowbite-react";
+import Pagination from "./Pagination";
 
 const Tabla = () => {
   const [datos, setDatos] = useState([]);
   const [loader, setLoader] = useState(false);
+  const [itemsPage, setItemsPage] = useState(50)
+  const [currentPage, setCurrentPage] = useState(1)
   const averageHeartRateHigh = 201;
   const averageHeartRate = 149.2;
   const averageHeartRateLow = 90;
@@ -132,7 +135,7 @@ const Tabla = () => {
               <h5 className="italic text-sm font-bold">Activar Filtro - Rangos Actividad Sospechosa</h5>
             
           </div>
-          <table className="table-auto text-center items-center p-3 border">
+          <table className="table-auto text-center items-center p-3 border text-black">
             <thead>
               <tr className="border border-gray-800">
                 <TituloTabla
@@ -217,6 +220,7 @@ const Tabla = () => {
               ))}
             </tbody>
           </table>
+          <Pagination/>
         </div>
       </div>
     </>
