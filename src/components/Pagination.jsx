@@ -15,7 +15,6 @@ const Pagination = () => {
             1
           </a>
         </li>
-
         <li>
           <a
             className="pagination-link is-current"
