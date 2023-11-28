@@ -1,6 +1,6 @@
 import TituloTabla from "./TituloTabla";
 import Prueba from "./Prueba";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { ToggleSwitch } from "flowbite-react";
 import Pagination from "./Pagination";
 
@@ -41,33 +41,27 @@ const Tabla = (props) => {
     const exactlyAverageDistanceInMetersHigh = parseInt(
       dateAverageDistanceInMetersHigh
     );
-      let mensaje = ''
+      let mensaje = '';
     if (
-      AverageHeartRateInBeatsPerMinute < averageHeartRateLow &&
+      AverageHeartRateInBeatsPerMinute < averageHeartRateLow ||
       AverageHeartRateInBeatsPerMinute > averageHeartRateHigh
     ) {
-      console.log("Este rango esta sospechoso");
-    } else {
-      console.log("Tiene buen ritmo cardiaco");
-    }
+      mensaje += "Este rango esta sospechoso";
+    } 
 
     if (
-      DurationInSeconds / 60 === averageDurationLow &&
+      DurationInSeconds / 60 === averageDurationLow ||
       DurationInSeconds / 60 === averageDurationHigh
     ) {
-      console.log("Tiempo sospechoso");
-    } else {
-      console.log("Tiempo adecuado para su actividad");
-    }
+      mensaje +="Tiempo sospechoso";
+    } 
 
     if (
-      exactlyAverageDistanceInMetersHigh === averageDistanceInMetersLow &&
+      exactlyAverageDistanceInMetersHigh === averageDistanceInMetersLow ||
       exactlyAverageDistanceInMetersHigh >= averageDistanceInMetersHigh
     ) {
-      console.log("Distancia irregular");
-    } else {
-      console.log("Distancia adecuada");
-    }
+      mensaje+="Distancia irregular";
+    } 
 
     const esSospechosa =
       AverageHeartRateInBeatsPerMinute === 0 ||
@@ -78,9 +72,10 @@ const Tabla = (props) => {
       DistanceInMeters > averageDistanceInMeters * 2;
 
     if (esSospechosa) {
-      console.log(
+     
+     mensaje += 
         `Actividad sospechosa - ID: ${Id} Distancia: ${DistanceInMeters} - Ritmo cardiado : ${AverageHeartRateInBeatsPerMinute} - Duración: ${DurationInSeconds} - No es congruente estas medidas para la actividad `
-      );
+      ; 
     }
 
     return esSospechosa ? { backgroundColor: "red",mensaje: mensaje } : {};
@@ -92,7 +87,7 @@ const Tabla = (props) => {
     setFiltroActivo(!filtroActivo);
   };
 
-  const actividadesFiltradas = datos.filter((actividad) => {
+  const actividadesFiltradas = datos.slice(firstIndex, lastIndex).filter((actividad) => {
     if (filtroActivo) {
       return (
         actividad.AverageHeartRateInBeatsPerMinute < 90 &&
@@ -110,11 +105,12 @@ const Tabla = (props) => {
         <div className="container mx-auto my-5">
           <Prueba />
           <div className="container flex gap-3 mb-3 items-center">
+            
               <ToggleSwitch checked={filtroActivo} onChange={toggleFiltro} />
               <h5 className="italic text-sm font-bold">Activar Filtro - Rangos Actividad Sospechosa</h5>
-
+            
           </div>
-          <table className="table-auto text-center items-center p-3 border text-black">
+          <table className="table-auto text-center items-center p-3 border text-black h-[70%]">
             <thead>
               <tr className="border border-gray-800">
                 <TituloTabla
@@ -157,7 +153,9 @@ const Tabla = (props) => {
             </thead>
             <tbody>
               {actividadesFiltradas.map((item) => {
-                const estilos = getEstiloFila(item);
+                const res = getEstiloFila(item);
+                const {mensaje,...estilos} = res
+               
                 return (
                   <tr key={item.Id} className="border-b border-gray-800">
                     <td className="border-r  border-gray-800">{item.Id}</td>
@@ -196,10 +194,10 @@ const Tabla = (props) => {
                     <td
                       className="border-r  border-gray-800"
                       style={estilos}
-                    ></td>
+                    >{mensaje}</td>
                   </tr>
                 );
-              }).slice(firstIndex, lastIndex)}
+              })}
             </tbody>
           </table>
           <Pagination itemsPage={itemsPage} currentPage={currentPage} setCurrentPage={setCurrentPage}
@@ -208,5 +206,6 @@ const Tabla = (props) => {
       </div>
     </>
   );
-}
+};
+
 export default Tabla;

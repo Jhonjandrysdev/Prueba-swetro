@@ -16,7 +16,7 @@ const Pagination = ({ itemsPage, currentPage, setCurrentPage, items }) => {
     setCurrentPage(currentPage + 1)
   }
 
-  const indexPage = ({page}) => {
+  const indexPage = (page) => {
     setCurrentPage(page)
   }
 
