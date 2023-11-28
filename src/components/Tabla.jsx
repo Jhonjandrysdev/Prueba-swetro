@@ -5,11 +5,21 @@ import Pagination from "./Pagination";
 import { ToggleSwitch } from "flowbite-react";
 const Tabla = (props) => {
   const datos = props.data;
+  const [filtroActivo, setFiltroActivo] = useState(false);
   const [itemsPage, setItemsPage] = useState(1000);
   const [currentPage, setCurrentPage] = useState(1);
+  const [searchTerm, setSearchTerm] = useState("");
 
   const lastIndex = currentPage * itemsPage;
   const firstIndex = lastIndex - itemsPage;
+
+  const handleSearchChange = (e) => {
+    setSearchTerm(e.target.value);
+  };
+  
+  const clearSearch = () => {
+    setSearchTerm("");
+  };
 
   const items = datos.length;
   const averageHeartRateHigh = 201;
@@ -74,10 +84,8 @@ const Tabla = (props) => {
         Los resultados no son coherentes entre si `;
     }
 
-    return esSospechosa ? { backgroundColor: "#30A0A7", mensaje: mensaje} : {};
+    return esSospechosa ? { backgroundColor: "#30A0A7", mensaje: mensaje } : {};
   };
-
-  const [filtroActivo, setFiltroActivo] = useState(false);
 
   const toggleFiltro = () => {
     setFiltroActivo(!filtroActivo);
@@ -95,88 +103,126 @@ const Tabla = (props) => {
       } else {
         return true;
       }
+    })
+    .filter((actividad) => {
+      // Filtrado basado solo en el ID si hay un término de búsqueda
+      return searchTerm ? actividad.Id.toString() === searchTerm : true;
     });
 
   return (
     <>
       <div className="w-full bg-gradient-to-r from-red-600">
         <div className="container mx-auto h-auto border-b border-white">
-            <Prueba />
-            <div className="container flex gap-3 items-center my-2 mx-2 text-white ">
-            <ToggleSwitch checked={filtroActivo} onChange={toggleFiltro}/>
+          <Prueba />
+          <div className="container flex items-center my-2 mx-2 text-white justify-center gap-5 ">
+            <ToggleSwitch checked={filtroActivo} onChange={toggleFiltro} />
             <h5 className="italic text-sm font-bold">
               Activar Filtro - Rangos Actividad Sospechosa
             </h5>
+            <div className="flex gap-2 items-center mb-3">
+              <input
+                type="text"
+                className="text-black px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
+                placeholder="Buscar por ID"
+                value={searchTerm}
+                onChange={handleSearchChange}
+              />
+              <button 
+              onClick={clearSearch}
+              className="ml-2 px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-indigo-400 focus:outline-none focus:ring focus:border-blue-300">
+                Limpiar
+                </button>
+            </div>
           </div>
-          <table className="mx-2 table-fixed text-center items-center h-[70%] p-2 bg-gradient-to-l from-blue-300 border-r-2 border-white rounded-t-lg rounded-r-lg text-white shadow-md italic">
+
+          <table className="mx-2 table-fixed text-center items-center h-[70vh] p-2 bg-gradient-to-l from-blue-300 border-r-2 border-white rounded-t-lg rounded-r-lg text-white shadow-md italic">
             <thead>
               <tr>
                 <TituloTabla
                   text="Id"
                   className="border-b border-r border-white p-3 text-base"
-                  />
+                />
                 <TituloTabla
                   text="Tiempo inicial en segundos"
                   className="border-b border-r border-white p-3 text-base"
-                  />
+                />
                 <TituloTabla
                   text="Duración en segundos"
                   className="border-b border-r border-white p-3 text-base"
-                  />
+                />
                 <TituloTabla
                   text="Distancia en metros"
                   className="border-b border-r border-white p-3 text-base"
-                  />
+                />
                 <TituloTabla
                   text="Pasos"
                   className="border-b border-r border-white p-3 text-base"
-                  />
+                />
                 <TituloTabla
                   text="Velocidad media metros por segundos"
                   className="border-b border-r border-white p-3 text-base"
-                  />
+                />
                 <TituloTabla
                   text="Ritmo medio en minutos por Km"
                   className="border-b border-r border-white p-3 text-base"
-                  />
+                />
                 <TituloTabla
                   text="Ritmo cardiaco medio"
                   className="border-b border-r border-white p-3 text-base"
-                  />
+                />
                 <TituloTabla
                   text="Actividad sospechosa"
                   className="border-b border-r border-white p-3 text-base"
-                  />
+                />
               </tr>
             </thead>
             <tbody>
               {actividadesFiltradas.map((item) => {
                 const res = getEstiloFila(item);
                 const { mensaje, ...estilos } = res;
-                
+
                 return (
-                  <tr key={item.Id} className="mt-3 transition-all duration-300 ">
-                    <td className="mt-3 border-r-2 border-white w-[5%]" >{item.Id}</td>
+                  <tr
+                    key={item.Id}
+                    className="mt-3 transition-all duration-300 "
+                  >
+                    <td className="mt-3 border-r-2 border-white w-[5%]">
+                      {item.Id}
+                    </td>
                     <td className="mt-3 border-r-2 border-white ">
                       {item.StartTimeInSeconds}
                     </td>
-                    <td className="mt-3 border-r-2 border-white " style={estilos}>
+                    <td
+                      className="mt-3 border-r-2 border-white "
+                      style={estilos}
+                    >
                       {item.DurationInSeconds}
                     </td>
-                    <td className="mt-3 border-r-2 border-white " style={estilos}>
+                    <td
+                      className="mt-3 border-r-2 border-white "
+                      style={estilos}
+                    >
                       {item.DistanceInMeters}
                     </td>
-                    <td className="mt-3 border-r-2 border-white ">{item.Steps}</td>
+                    <td className="mt-3 border-r-2 border-white ">
+                      {item.Steps}
+                    </td>
                     <td className="mt-3 border-r-2 border-white ">
                       {item.AverageSpeedInMetersPerSecond}
                     </td>
                     <td className="mt-3 border-r-2 border-white ">
                       {item.AveragePaceInMinutesPerKilometer}
                     </td>
-                    <td className="mt-3 border-r-2 border-white " style={estilos}>
+                    <td
+                      className="mt-3 border-r-2 border-white "
+                      style={estilos}
+                    >
                       {item.AverageHeartRateInBeatsPerMinute}
                     </td>
-                    <td className="mt-3 border-r-2 border-white  w-[28%]" style={estilos}>
+                    <td
+                      className="mt-3 border-r-2 border-white  w-[28%]"
+                      style={estilos}
+                    >
                       <p className="text-xs flex text-center p-2">{mensaje}</p>
                     </td>
                   </tr>
@@ -190,9 +236,9 @@ const Tabla = (props) => {
             setCurrentPage={setCurrentPage}
             items={items}
           />
-          </div>
+        </div>
       </div>
-        </>
+    </>
   );
 };
 

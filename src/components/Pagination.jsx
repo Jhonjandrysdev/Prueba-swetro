@@ -51,7 +51,7 @@ const Pagination = ({ itemsPage, currentPage, setCurrentPage, items }) => {
             ))}
             <button
               onClick={onNextPage}
-              className="relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-red-600 focus:z-20 focus:outline-offset-0 w-7"
+              className="relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-red-700 focus:z-20 focus:outline-offset-0 w-7"
               disabled={currentPage >= pageNumbers.length}
               
             >
