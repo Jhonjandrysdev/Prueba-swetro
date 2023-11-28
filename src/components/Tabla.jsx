@@ -4,9 +4,8 @@ import { useState, useEffect } from "react";
 import { ToggleSwitch } from "flowbite-react";
 import Pagination from "./Pagination";
 
-const Tabla = () => {
-  const [datos, setDatos] = useState([]);
-  const [loader, setLoader] = useState(false);
+const Tabla = (props) => {
+  const datos = props.data;
   const [itemsPage, setItemsPage] = useState(1500)
   const [currentPage, setCurrentPage] = useState(1)
 
@@ -29,29 +28,6 @@ const Tabla = () => {
   const averageDistanceInMetersLow = 0;
   //Medidas de distancia en metros
 
-  const endpoint = "https://www.towired.com/acamilae/endpoint.php";
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        setLoader(true);
-        loader;
-        const response = await fetch(endpoint);
-
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
-        }
-        const data = await response.json();
-        setDatos(data);
-        // Trabaja con los datos obtenidos aquí
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      } finally {
-        setLoader(false);
-      }
-    };
-    fetchData();
-  }, [setLoader]);
 
   const getEstiloFila = (actividad) => {
     const {
@@ -65,7 +41,7 @@ const Tabla = () => {
     const exactlyAverageDistanceInMetersHigh = parseInt(
       dateAverageDistanceInMetersHigh
     );
-
+      let mensaje = ''
     if (
       AverageHeartRateInBeatsPerMinute < averageHeartRateLow &&
       AverageHeartRateInBeatsPerMinute > averageHeartRateHigh
@@ -107,7 +83,7 @@ const Tabla = () => {
       );
     }
 
-    return esSospechosa ? { backgroundColor: "red" } : {};
+    return esSospechosa ? { backgroundColor: "red",mensaje: mensaje } : {};
   };
 
   const [filtroActivo, setFiltroActivo] = useState(false);
@@ -134,10 +110,9 @@ const Tabla = () => {
         <div className="container mx-auto my-5">
           <Prueba />
           <div className="container flex gap-3 mb-3 items-center">
-            
               <ToggleSwitch checked={filtroActivo} onChange={toggleFiltro} />
               <h5 className="italic text-sm font-bold">Activar Filtro - Rangos Actividad Sospechosa</h5>
-            
+
           </div>
           <table className="table-auto text-center items-center p-3 border text-black">
             <thead>
@@ -181,47 +156,50 @@ const Tabla = () => {
               </tr>
             </thead>
             <tbody>
-              {actividadesFiltradas.map((item) => (
-                <tr key={item.Id} className="border-b border-gray-800">
-                  <td className="border-r  border-gray-800">{item.Id}</td>
-                  <td className="border-r  border-gray-800">
-                    {item.StartTimeInSeconds}
-                  </td>
-                  <td
-                    className="border-r  border-gray-800"
-                    style={getEstiloFila(item)}
-                  >
-                    {item.DurationInSeconds}
-                  </td>
-                  <td
-                    className="border-r  border-gray-800"
-                    style={getEstiloFila(item)}
-                  >
-                    {item.DistanceInMeters}
-                  </td>
-                  <td
-                    className="border-r  border-gray-800"
-                  >
-                    {item.Steps}
-                  </td>
-                  <td className="border-r  border-gray-800">
-                    {item.AverageSpeedInMetersPerSecond}
-                  </td>
-                  <td className="border-r  border-gray-800">
-                    {item.AveragePaceInMinutesPerKilometer}
-                  </td>
-                  <td
-                    className="border-r  border-gray-800"
-                    style={getEstiloFila(item)}
-                  >
-                    {item.AverageHeartRateInBeatsPerMinute}
-                  </td>
-                  <td
-                    className="border-r  border-gray-800"
-                    style={getEstiloFila(item)}
-                  ></td>
-                </tr>
-              )).slice(firstIndex, lastIndex)}
+              {actividadesFiltradas.map((item) => {
+                const estilos = getEstiloFila(item);
+                return (
+                  <tr key={item.Id} className="border-b border-gray-800">
+                    <td className="border-r  border-gray-800">{item.Id}</td>
+                    <td className="border-r  border-gray-800">
+                      {item.StartTimeInSeconds}
+                    </td>
+                    <td
+                      className="border-r  border-gray-800"
+                      style={estilos}
+                    >
+                      {item.DurationInSeconds}
+                    </td>
+                    <td
+                      className="border-r  border-gray-800"
+                      style={estilos}
+                    >
+                      {item.DistanceInMeters}
+                    </td>
+                    <td
+                      className="border-r  border-gray-800"
+                    >
+                      {item.Steps}
+                    </td>
+                    <td className="border-r  border-gray-800">
+                      {item.AverageSpeedInMetersPerSecond}
+                    </td>
+                    <td className="border-r  border-gray-800">
+                      {item.AveragePaceInMinutesPerKilometer}
+                    </td>
+                    <td
+                      className="border-r  border-gray-800"
+                      style={estilos}
+                    >
+                      {item.AverageHeartRateInBeatsPerMinute}
+                    </td>
+                    <td
+                      className="border-r  border-gray-800"
+                      style={estilos}
+                    ></td>
+                  </tr>
+                );
+              }).slice(firstIndex, lastIndex)}
             </tbody>
           </table>
           <Pagination itemsPage={itemsPage} currentPage={currentPage} setCurrentPage={setCurrentPage}
@@ -230,6 +208,5 @@ const Tabla = () => {
       </div>
     </>
   );
-};
-
+}
 export default Tabla;
