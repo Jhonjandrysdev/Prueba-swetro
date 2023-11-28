@@ -71,7 +71,7 @@ const Tabla = (props) => {
     if (esSospechosa) {
       mensaje = `Distancia: ${DistanceInMeters}
        | Ritmo cardiado : ${AverageHeartRateInBeatsPerMinute} | Duración: ${DurationInSeconds} seg 
-        Los resultados no son congruentes entre si `;
+        Los resultados no son coherentes entre si `;
     }
 
     return esSospechosa ? { backgroundColor: "#30A0A7", mensaje: mensaje} : {};
