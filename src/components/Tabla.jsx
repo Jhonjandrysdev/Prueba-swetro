@@ -7,8 +7,13 @@ import Pagination from "./Pagination";
 const Tabla = () => {
   const [datos, setDatos] = useState([]);
   const [loader, setLoader] = useState(false);
-  const [itemsPage, setItemsPage] = useState(50)
+  const [itemsPage, setItemsPage] = useState(1500)
   const [currentPage, setCurrentPage] = useState(1)
+
+  const lastIndex = currentPage * itemsPage
+  const firstIndex =  lastIndex - itemsPage
+
+  const items = datos.length
   const averageHeartRateHigh = 201;
   const averageHeartRate = 149.2;
   const averageHeartRateLow = 90;
@@ -216,10 +221,11 @@ const Tabla = () => {
                     style={getEstiloFila(item)}
                   ></td>
                 </tr>
-              ))}
+              )).slice(firstIndex, lastIndex)}
             </tbody>
           </table>
-          <Pagination/>
+          <Pagination itemsPage={itemsPage} currentPage={currentPage} setCurrentPage={setCurrentPage}
+          items={items}/>
         </div>
       </div>
     </>
