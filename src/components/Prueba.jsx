@@ -1,5 +1,5 @@
 import React from 'react'
-import Running from '../assets/corriendo.png';
+import Running from '../assets/running.png';
 
 const Prueba = () => {
   return (

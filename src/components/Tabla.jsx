@@ -3,7 +3,6 @@ import Prueba from "./Prueba";
 import TituloTabla from "./TituloTabla";
 import Pagination from "./Pagination";
 import { ToggleSwitch } from "flowbite-react";
-import Running from '../assets/pexels-pixabay-54326.jpg';
 const Tabla = (props) => {
   const datos = props.data;
   const [itemsPage, setItemsPage] = useState(1500);
@@ -30,7 +29,6 @@ const Tabla = (props) => {
 
   const getEstiloFila = (actividad) => {
     const {
-      Id,
       AverageHeartRateInBeatsPerMinute,
       DurationInSeconds,
       DistanceInMeters,
@@ -45,7 +43,7 @@ const Tabla = (props) => {
       AverageHeartRateInBeatsPerMinute < averageHeartRateLow ||
       AverageHeartRateInBeatsPerMinute > averageHeartRateHigh
     ) {
-      mensaje += "Este rango esta sospechoso";
+      mensaje = "Este rango esta sospechoso";
     }
 
     if (
@@ -71,11 +69,11 @@ const Tabla = (props) => {
       DistanceInMeters > averageDistanceInMeters * 2;
 
     if (esSospechosa) {
-      mensaje += `Distancia: ${DistanceInMeters} m
-       | Ritmo cardiado : ${AverageHeartRateInBeatsPerMinute} | Duración: ${DurationInSeconds} seg  No son congruentes estas medidas para la actividad `;
+      mensaje = `Distancia: ${DistanceInMeters} m
+       | Ritmo cardiado : ${AverageHeartRateInBeatsPerMinute} | Duración: ${DurationInSeconds} seg  Los resultados no son congruentes entre si `;
     }
 
-    return esSospechosa ? { backgroundColor: "red", mensaje: mensaje } : {};
+    return esSospechosa ? { backgroundColor: "#30A0A7", mensaje: mensaje, className: "font-bold" } : {};
   };
 
   const [filtroActivo, setFiltroActivo] = useState(false);
@@ -100,62 +98,53 @@ const Tabla = (props) => {
 
   return (
     <>
-      <div className="w-full bg-white"
-      >
-        <div className="container mx-auto my-3 h-auto border-2 border-black"
-           style={
-            {
-              backgroundImage : `url(${Running})`,
-              backgroundSize: 'cover',
-              backgroundPosition: 'center',
-              backgroundRepeat: 'no-repeat'
-            }
-          } >
+      <div className="w-full bg-gradient-to-r from-red-600">
+        <div className="container mx-auto h-auto border-b border-white">
             <Prueba />
-            <div className="container flex gap-3 items-center my-2 mx-2 ">
-            <ToggleSwitch checked={filtroActivo} onChange={toggleFiltro} />
-            <h5 className="italic text-sm font-bold text-white">
+            <div className="container flex gap-3 items-center my-2 mx-2 text-white ">
+            <ToggleSwitch checked={filtroActivo} onChange={toggleFiltro}/>
+            <h5 className="italic text-sm font-bold">
               Activar Filtro - Rangos Actividad Sospechosa
             </h5>
           </div>
-          <table className="table-auto text-center border-2 border-black items-center text-white h-[70%] p-2 ">
+          <table className="mx-2 table-fixed text-center items-center h-[70%] p-2 bg-gradient-to-l from-blue-300 border-r-2 border-white rounded-t-lg rounded-r-lg text-white shadow-md italic">
             <thead>
-              <tr className="">
+              <tr>
                 <TituloTabla
                   text="Id"
-                  className="border-2 border-black p-3 text-sm"
+                  className="border-b border-r border-white p-3 text-base"
                   />
                 <TituloTabla
                   text="Tiempo inicial en segundos"
-                  className="border-2 border-black p-3 text-sm"
+                  className="border-b border-r border-white p-3 text-base"
                   />
                 <TituloTabla
                   text="Duración en segundos"
-                  className="border-2 border-black p-3 text-sm"
+                  className="border-b border-r border-white p-3 text-base"
                   />
                 <TituloTabla
                   text="Duración en metros"
-                  className="border-2 border-black p-3 text-sm"
+                  className="border-b border-r border-white p-3 text-base"
                   />
                 <TituloTabla
                   text="Pasos"
-                  className="border-2 border-black p-3 text-sm"
+                  className="border-b border-r border-white p-3 text-base"
                   />
                 <TituloTabla
                   text="Velocidad media metros por segundos"
-                  className="border-2 border-black p-3 text-sm"
+                  className="border-b border-r border-white p-3 text-base"
                   />
                 <TituloTabla
                   text="Ritmo medio en minutos por Km"
-                  className="border-2 border-black p-3 text-sm"
+                  className="border-b border-r border-white p-3 text-base"
                   />
                 <TituloTabla
                   text="Ritmo cardiaco medio"
-                  className="border-2 border-black p-3 text-sm"
+                  className="border-b border-r border-white p-3 text-base"
                   />
                 <TituloTabla
                   text="Actividad sospechosa"
-                  className="border-2 border-black p-3 text-sm"
+                  className="border-b border-r border-white p-3 text-base"
                   />
               </tr>
             </thead>
@@ -165,29 +154,29 @@ const Tabla = (props) => {
                 const { mensaje, ...estilos } = res;
                 
                 return (
-                  <tr key={item.Id} className="border-b-2 border-black">
-                    <td className="border-r-2  border-black">{item.Id}</td>
-                    <td className="border-r-2  border-black">
+                  <tr key={item.Id} className="mt-3 transition-all duration-300 ">
+                    <td className="mt-3 border-r-2 border-white w-[5%]" >{item.Id}</td>
+                    <td className="mt-3 border-r-2 border-white ">
                       {item.StartTimeInSeconds}
                     </td>
-                    <td className="border-r-2  border-black" style={estilos}>
+                    <td className="mt-3 border-r-2 border-white " style={estilos}>
                       {item.DurationInSeconds}
                     </td>
-                    <td className="border-r-2  border-black" style={estilos}>
+                    <td className="mt-3 border-r-2 border-white " style={estilos}>
                       {item.DistanceInMeters}
                     </td>
-                    <td className="border-r-2  border-black">{item.Steps}</td>
-                    <td className="border-r-2  border-black">
+                    <td className="mt-3 border-r-2 border-white ">{item.Steps}</td>
+                    <td className="mt-3 border-r-2 border-white ">
                       {item.AverageSpeedInMetersPerSecond}
                     </td>
-                    <td className="border-r-2  border-black">
+                    <td className="mt-3 border-r-2 border-white ">
                       {item.AveragePaceInMinutesPerKilometer}
                     </td>
-                    <td className="border-r-2  border-black" style={estilos}>
+                    <td className="mt-3 border-r-2 border-white " style={estilos}>
                       {item.AverageHeartRateInBeatsPerMinute}
                     </td>
-                    <td className="border-r-2  border-black" style={estilos}>
-                      <p className="text-sm flex flex-row">{mensaje}</p>
+                    <td className="mt-3 border-r-2 border-white  w-[35%]" style={estilos}>
+                      <p className="text-xs flex text-center p-2">{mensaje}</p>
                     </td>
                   </tr>
                 );

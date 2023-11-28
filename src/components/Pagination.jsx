@@ -22,7 +22,7 @@ const Pagination = ({ itemsPage, currentPage, setCurrentPage, items }) => {
 
   return (
     <>
-      <div className="flex items-center justify-center border-t border-gray-200 bg-white px-4 py-3 sm:px-6">
+      <div className="flex items-center justify-center border-gray-200 px-4 py-3 sm:px-6">
         <div className="flex items-center sm:justify-between">
           <nav
             className="isolate inline-flex -space-x-px rounded-md shadow-sm"
@@ -41,7 +41,7 @@ const Pagination = ({ itemsPage, currentPage, setCurrentPage, items }) => {
                 key={noPage}
                 className={`${
                   noPage === currentPage
-                    ? "bg-indigo-700 text-white focus:outline border p-3 flex items-center"
+                    ? "bg-blue-500-700 text-white border p-3 flex items-center"
                     : "bg-white text-black border p-3 flex items-center"
                 }`}
                 onClick={() => indexPage(noPage)}
