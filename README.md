@@ -22,9 +22,11 @@ Tecnologias necesarias:
 1. Clona este repositorio en tu máquina local:
 
 bash
+<br>
 git clone https://github.com/Jhonjandrysdev/Prueba-swetro.git
-
+<br>
 cd prueba-swetro
+<br>
 npm install
 
 
