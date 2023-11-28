@@ -11,7 +11,7 @@ Descripción: Data con registros a analizar y determinar datos anomalos o sospec
 - Paso 7: Se creo metodo de diferenciación para identificar usuario con valor anormal.
 - Paso 8: Se creo metodo de filtrado de información para pintar usuarios con datos alterados.
 - Paso 9: Se creo buscador para obtener datos por medio del ID del usuario.
-- Paso 9: Se realizo paginador y loader para hacer un lazy loading de la pagina y dividir la data en diferentes paginas y mejorar la experiencia de usuario a la espera de la data.
+- Paso 10: Se realizo paginador y loader para hacer un lazy loading de la pagina y dividir la data en diferentes paginas y mejorar la experiencia de usuario a la espera de la data.
 
 ## Requisitos Previos
 Tecnologias necesarias:
