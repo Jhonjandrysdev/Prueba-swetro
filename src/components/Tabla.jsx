@@ -73,7 +73,7 @@ const Tabla = (props) => {
        | Ritmo cardiado : ${AverageHeartRateInBeatsPerMinute} | Duración: ${DurationInSeconds} seg  Los resultados no son congruentes entre si `;
     }
 
-    return esSospechosa ? { backgroundColor: "#30A0A7", mensaje: mensaje, className: "font-bold" } : {};
+    return esSospechosa ? { backgroundColor: "#30A0A7", mensaje: mensaje} : {};
   };
 
   const [filtroActivo, setFiltroActivo] = useState(false);
