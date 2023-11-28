@@ -69,8 +69,9 @@ const Tabla = (props) => {
       DistanceInMeters > averageDistanceInMeters * 2;
 
     if (esSospechosa) {
-      mensaje = `Distancia: ${DistanceInMeters} m
-       | Ritmo cardiado : ${AverageHeartRateInBeatsPerMinute} | Duración: ${DurationInSeconds} seg  Los resultados no son congruentes entre si `;
+      mensaje = `Distancia: ${DistanceInMeters}
+       | Ritmo cardiado : ${AverageHeartRateInBeatsPerMinute} | Duración: ${DurationInSeconds} seg 
+        Los resultados no son congruentes entre si `;
     }
 
     return esSospechosa ? { backgroundColor: "#30A0A7", mensaje: mensaje} : {};
@@ -175,7 +176,7 @@ const Tabla = (props) => {
                     <td className="mt-3 border-r-2 border-white " style={estilos}>
                       {item.AverageHeartRateInBeatsPerMinute}
                     </td>
-                    <td className="mt-3 border-r-2 border-white  w-[35%]" style={estilos}>
+                    <td className="mt-3 border-r-2 border-white  w-[28%]" style={estilos}>
                       <p className="text-xs flex text-center p-2">{mensaje}</p>
                     </td>
                   </tr>
