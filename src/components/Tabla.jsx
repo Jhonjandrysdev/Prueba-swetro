@@ -84,7 +84,7 @@ const Tabla = (props) => {
         Los resultados no son coherentes entre si `;
     }
 
-    return esSospechosa ? { backgroundColor: "#a7d24e", mensaje: mensaje } : {};
+    return esSospechosa ? { backgroundColor: "#e92a2a", mensaje: mensaje } : {};
   };
 
   const toggleFiltro = () => {
@@ -129,7 +129,7 @@ const Tabla = (props) => {
               />
               <button 
               onClick={clearSearch}
-              className=" px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-[#9dfd00]">
+              className=" px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-indigo-400">
                 Limpiar
                 </button>
             </div>
