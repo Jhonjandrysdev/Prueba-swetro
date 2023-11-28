@@ -84,7 +84,7 @@ const Tabla = (props) => {
         Los resultados no son coherentes entre si `;
     }
 
-    return esSospechosa ? { backgroundColor: "#30A0A7", mensaje: mensaje } : {};
+    return esSospechosa ? { backgroundColor: "#9dfd00", mensaje: mensaje } : {};
   };
 
   const toggleFiltro = () => {
@@ -111,7 +111,7 @@ const Tabla = (props) => {
 
   return (
     <>
-      <div className="w-full bg-gradient-to-r from-red-600">
+      <div className="w-full bg-gradient-to-r from-blue-600">
         <div className="container mx-auto h-auto border-b border-white">
           <Prueba />
           <div className="container flex items-center my-2 mx-2 text-white justify-center gap-5 ">
@@ -122,20 +122,20 @@ const Tabla = (props) => {
             <div className="flex gap-2 items-center mb-3">
               <input
                 type="text"
-                className="text-black px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
+                className="text-black px-3 py-2 border rounded-lg focus:border-blue-300"
                 placeholder="Buscar por ID"
                 value={searchTerm}
                 onChange={handleSearchChange}
               />
               <button 
               onClick={clearSearch}
-              className="ml-2 px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-indigo-400 focus:outline-none focus:ring focus:border-blue-300">
+              className=" px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-[#9dfd00]">
                 Limpiar
                 </button>
             </div>
           </div>
 
-          <table className="mx-2 table-fixed text-center items-center h-[70vh] p-2 bg-gradient-to-l from-blue-300 border-r-2 border-white rounded-t-lg rounded-r-lg text-white shadow-md italic">
+          <table className="mx-2 table-fixed text-center items-center h-[70vh] p-2 bg-gradient-to-l from-blue-600 border-r-2 border-white rounded-t-lg rounded-r-lg text-white shadow-md italic">
             <thead>
               <tr>
                 <TituloTabla
