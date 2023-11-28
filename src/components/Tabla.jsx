@@ -124,7 +124,7 @@ const Tabla = (props) => {
                   className="border-b border-r border-white p-3 text-base"
                   />
                 <TituloTabla
-                  text="Duración en metros"
+                  text="Distancia en metros"
                   className="border-b border-r border-white p-3 text-base"
                   />
                 <TituloTabla
