@@ -84,7 +84,7 @@ const Tabla = (props) => {
         Los resultados no son coherentes entre si `;
     }
 
-    return esSospechosa ? { backgroundColor: "#9dfd00", mensaje: mensaje } : {};
+    return esSospechosa ? { backgroundColor: "#a7d24e", mensaje: mensaje } : {};
   };
 
   const toggleFiltro = () => {
@@ -143,6 +143,10 @@ const Tabla = (props) => {
                   className="border-b border-r border-white p-3 text-base"
                 />
                 <TituloTabla
+                  text="UserId"
+                  className="border-b border-r border-white p-3 text-base"
+                />
+                <TituloTabla
                   text="Tiempo inicial en segundos"
                   className="border-b border-r border-white p-3 text-base"
                 />
@@ -178,6 +182,7 @@ const Tabla = (props) => {
             </thead>
             <tbody>
               {actividadesFiltradas.map((item) => {
+                console.log(item.UserId)
                 const res = getEstiloFila(item);
                 const { mensaje, ...estilos } = res;
 
@@ -188,6 +193,10 @@ const Tabla = (props) => {
                   >
                     <td className="mt-3 border-r-2 border-white w-[5%]">
                       {item.Id}
+                    </td>
+                    <td className="mt-3 border-r-2 border-white w-[5%]"
+                    style={estilos}>
+                      {item.UserId}
                     </td>
                     <td className="mt-3 border-r-2 border-white ">
                       {item.StartTimeInSeconds}
