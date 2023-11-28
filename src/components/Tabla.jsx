@@ -5,7 +5,7 @@ import Pagination from "./Pagination";
 import { ToggleSwitch } from "flowbite-react";
 const Tabla = (props) => {
   const datos = props.data;
-  const [itemsPage, setItemsPage] = useState(1500);
+  const [itemsPage, setItemsPage] = useState(1000);
   const [currentPage, setCurrentPage] = useState(1);
 
   const lastIndex = currentPage * itemsPage;

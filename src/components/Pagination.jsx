@@ -22,8 +22,8 @@ const Pagination = ({ itemsPage, currentPage, setCurrentPage, items }) => {
 
   return (
     <>
-      <div className="flex items-center justify-center border-gray-200 px-4 py-3 sm:px-6">
-        <div className="flex items-center sm:justify-between">
+      <div className="flex items-center justify-center px-4 py-3 sm:px-6">
+        <div className="flex items-center sm:justify-between w-full">
           <nav
             className="isolate inline-flex -space-x-px rounded-md shadow-sm"
             aria-label="Pagination"
@@ -34,7 +34,7 @@ const Pagination = ({ itemsPage, currentPage, setCurrentPage, items }) => {
               disabled={currentPage === 1}
             >
               <span className="sr-only">Previous</span>
-              <img src={Left} className="h-5 w-5 " aria-hidden="true" />
+              <img src={Left} className="h-5 w-40 " aria-hidden="true" />
             </button>
             {pageNumbers.map((noPage) => (
               <button
@@ -51,12 +51,12 @@ const Pagination = ({ itemsPage, currentPage, setCurrentPage, items }) => {
             ))}
             <button
               onClick={onNextPage}
-              className="relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0"
+              className="relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-red-400 focus:z-20 focus:outline-offset-0"
               disabled={currentPage >= pageNumbers.length}
               
             >
               <span className="sr-only">Next</span>
-              <img src={Right} className="h-5 w-5 " aria-hidden="true" />
+              <img src={Right} className="h-5 w-40 " aria-hidden="true" />
             </button>
           </nav>
         </div>
